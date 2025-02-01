@@ -1,4 +1,4 @@
-function [rxyz,velxyz,alt] = getInitialStateVectorFunc(tleLine1,tleLine2)
+function [rxyz,velxyz,alt,JD] = getInitialStateVectorFunc(tleLine1,tleLine2)
 
 %% Parameters
 MU = 3.986004415e14;        %Earth's gravitational parameter (m^3/s^2)
@@ -43,8 +43,6 @@ velxyz = R*velOrb/1e3;
 % Julian date
 TLEepoch = datetime(yr,1,0,0,0,0) + days(doy);
 JD = days(TLEepoch - datetime(2000,1,1,0,0,0)) + 2451544.5;
-fprintf('TLE Julian Date is: %f \n',JD);
-
 alt = norm(rxyz)-RE/1000;
 
 %% Orbital DCM function

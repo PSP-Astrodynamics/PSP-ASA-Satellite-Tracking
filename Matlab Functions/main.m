@@ -8,10 +8,10 @@ clear all; close all
 %--------------------------USER SETTINGS----------------------------------%
 
 %% Define Satellite TLE - YOU MUST UPDATE THESE VALUES
-tleLine1 = '1 51085U 22002DF  25025.54446733  .00041556  00000+0  94120-3 0  9994';
-tleLine2 = '2 51085  97.3566  95.9229 0007148 342.7667  17.3337 15.42972602168364';
+tleLine1 = '1 51085U 22002DF  25032.54719027  .00048242  00000+0  10702-2 0  9993';
+tleLine2 = '2 51085  97.3538 102.9956 0006702 315.2737  44.7970 15.43560689169443';
 
-[rxyz, velxyz, alt] = getInitialStateVectorFunc(tleLine1, tleLine2);
+[rxyz, velxyz, alt, JD] = getInitialStateVectorFunc(tleLine1, tleLine2);
 
 % Position
 fprintf('Position vector in km is:\n');
@@ -26,17 +26,17 @@ fprintf('x = %f \n',velxyz(1));
 fprintf('y = %f \n',velxyz(2));
 fprintf('z = %f \n',velxyz(3));
 
-%% Define Satellite Properties - YOU MUST UPDATE THESE VALUES
+%% Define Satellite Properties - UPDATE THESE
 Spacecraft.mass = 2; % Satellite mass [kg] %6U mass average 
 Spacecraft.Aref = .03405; % Satellite reference area [m^2]
 Spacecraft.Cd   = 0.2; % Satellite drag coefficient [unitless]
-Spacecraft.JDepoch   = 2460701.044467; % Satellite Julian date at epoch
+Spacecraft.JDepoch   = JD; % Satellite Julian date at epoch
 Spacecraft.position   = rxyz; % Satellite initial ECI position [km]
 Spacecraft.velocity   = velxyz; % Satellite initial ECI velocity [km/s]
 
-%% Define Ground Station Properties - UPDATE THESE TOO
-Station.latitude = 	50.359; %Ground station latitude [deg]
-Station.longitude = 30.388; %Ground station longitude [deg]
+%% Define Ground Station Properties - UPDATE THESE
+Station.latitude = 	50.359; % Ground station latitude [deg]
+Station.longitude = 30.388; % Ground station longitude [deg]
 Station.altitude = 0.2;  % Ground station altitude [km]
 Station.minElevation = 5; % Minimum elevation for acquisition [deg]
 Station.freq = 435000000; % Station frequency [Hz]
