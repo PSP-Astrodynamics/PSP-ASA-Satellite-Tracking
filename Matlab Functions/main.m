@@ -66,6 +66,7 @@ for ii=1:numel(propJulianDates)
     rSun = SolarPositionModel(JD); % Solar position vector
     inEclipse(ii) = eclipseCheck(rSun,rSat);
 end
+inEclipse = inEclipse';
 
 %% Plots
 
