@@ -4,7 +4,7 @@
 % DESCRIPTION: This file provides orbit propagation and related info 
 % for the Satellite Tracking Project. 
 %=========================================================================%
-clear all; close all
+clear; close all
 %--------------------------USER SETTINGS----------------------------------%
 
 %% Define Satellite TLE - UPDATE THESE VALUES
