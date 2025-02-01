@@ -13,6 +13,19 @@ tleLine2 = '2 51085  97.3538 102.9956 0006702 315.2737  44.7970 15.4356068916944
 
 [rxyz, velxyz, alt, JD] = getInitialStateVectorFunc(tleLine1, tleLine2);
 
+% Position
+fprintf('Position vector in km is:\n');
+fprintf('altitude = %f \n',alt);
+fprintf('x = %f \n',rxyz(1));
+fprintf('y = %f \n',rxyz(2));
+fprintf('z = %f \n',rxyz(3));
+
+% Velocity
+fprintf('Velocity vector in km/sec is:\n');
+fprintf('x = %f \n',velxyz(1));
+fprintf('y = %f \n',velxyz(2));
+fprintf('z = %f \n',velxyz(3));
+
 %% Define Satellite Properties - UPDATE THESE
 Spacecraft.mass = 2; % Satellite mass [kg] %6U mass average 
 Spacecraft.Aref = .03405; % Satellite reference area [m^2]
@@ -28,13 +41,13 @@ Station.altitude = 0.2;  % Ground station altitude [km]
 Station.minElevation = 5; % Minimum elevation for acquisition [deg]
 Station.freq = 435000000; % Station frequency [Hz]
 
-%% SOLAR INFO      
+%% SOLAR INFO - UPDATE THESE
+Environment.f107Daily = 235;                    % Solar F10.7 cm radio flux [SFU]
 [Environment.f107Daily, Environment.f107Average, Environment.magneticIndex] = getAverageF107(); 
-% Solar F10.7 cm radio flux [SFU]
-% 81-day average F10.7 cm radio flux [SFU] 
-% Geomagnetic activity index [unitless]
+% 81-day average F10.7 cm radio flux [SFU]
+Environment.magneticIndex = 5;                  % Geomagnetic activity index [unitless]
 
-%% Define Environment Properties
+%% Define Enviornment Properties
 Environment.EarthMU = 3.9860044189e5;           % Earth gravitational parameter [km^3/s^2]
 Environment.EarthJ2 = 1082.63e-6;               % J2 oblateness parameter [unitless]
 Environment.EarthPolarRadius = 6356.752;        % [km]
