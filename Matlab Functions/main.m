@@ -12,39 +12,37 @@ tleLine1 = '1 51085U 22002DF  25032.54719027  .00048242  00000+0  10702-2 0  999
 tleLine2 = '2 51085  97.3538 102.9956 0006702 315.2737  44.7970 15.43560689169443';
 
 %% Define Satellite Properties - UPDATE THESE VALUES
-Spacecraft.mass = 2; % Satellite mass [kg] %6U mass average 
+Spacecraft.mass = 2;      % Satellite mass [kg]
 Spacecraft.Aref = .03405; % Satellite reference area [m^2]
-Spacecraft.Cd   = 0.2; % Satellite drag coefficient [unitless]
+Spacecraft.Cd   = 0.2;    % Satellite drag coefficient [unitless]
 
 %% Define Ground Station Properties - UPDATE THESE VALUES
-Station.latitude = 	50.359; % Ground station latitude [deg]
-Station.longitude = 30.388; % Ground station longitude [deg]
-Station.altitude = 0.2;  % Ground station altitude [km]
-Station.minElevation = 5; % Minimum elevation for acquisition [deg]
-Station.freq = 435000000; % Station frequency [Hz]
+Station.latitude     = 50.359;    % Ground station latitude [deg]
+Station.longitude    = 30.388;    % Ground station longitude [deg]
+Station.altitude     = 0.2;       % Ground station altitude [km]
+Station.minElevation = 5;         % Minimum elevation for acquisition [deg]
+Station.freq         = 435000000; % Station frequency [Hz]
+
+%------------------------END USER SETTINGS--------------------------------%
 
 %% SATELLITE POSITION/VELOCITY CALCULATIONS
 [rxyz, velxyz, alt, JD] = getInitialStateVectorFunc(tleLine1, tleLine2);
-Spacecraft.JDepoch   = JD; % Satellite Julian date at epoch
-Spacecraft.position   = rxyz; % Satellite initial ECI position [km]
-Spacecraft.velocity   = velxyz; % Satellite initial ECI velocity [km/s]
+Spacecraft.JDepoch      = JD;     % Satellite Julian date at epoch
+Spacecraft.position     = rxyz;   % Satellite initial ECI position [km]
+Spacecraft.velocity     = velxyz; % Satellite initial ECI velocity [km/s]
 
 %% ENVIRONMENT PROPERTIES
 [Environment.f107Daily, Environment.f107Average, Environment.magneticIndex] = getAverageF107(); 
-% Solar F10.7 cm radio flux [SFU]
-% 81-day average F10.7 cm radio flux [SFU] 
-% Geomagnetic activity index [unitless]
-Environment.EarthMU = 3.9860044189e5;           % Earth gravitational parameter [km^3/s^2]
-Environment.EarthJ2 = 1082.63e-6;               % J2 oblateness parameter [unitless]
-Environment.EarthPolarRadius = 6356.752;        % [km]
-Environment.EarthEquatorialRadius = 6378.1363;  % [km]
-Environment.EarthRotationRate = 7.2921159e-5;   % Earth's rotation rate [rad/s]
+% [Solar F10.7 cm radio flux [SFU], 81-day average F10.7 cm radio flux [SFU], Geomagnetic activity index [unitless]]
+Environment.EarthMU = 3.9860044189e5; % Earth gravitational parameter [km^3/s^2]
+Environment.EarthJ2 = 1082.63e-6; % J2 oblateness parameter [unitless]
+Environment.EarthPolarRadius = 6356.752; % [km]
+Environment.EarthEquatorialRadius = 6378.1363; % [km]
+Environment.EarthRotationRate = 7.2921159e-5; % Earth's rotation rate [rad/s]
 
 %% Propagate Properties
 outputTimeStep = 10; % Time step at which to output data [sec]
 maxTime = 86400*3;  % Maximum time to propagate to [sec], e.g., 3 days
-
-%----------------------------END USER SETTINGS----------------------------%
 
 %% Run Propagation
 tspan = 0:outputTimeStep:maxTime; % Propagation time vector
@@ -148,11 +146,11 @@ tq = datetime(2024,11,28,15,5,0);
 %tq = datetime(2460639.333973, 'ConvertFrom', 'juliandate');
 positionEstimate = [interp1(t,propStates(1,:),tq);
                     interp1(t,propStates(2,:),tq);
-                    interp1(t,propStates(3,:),tq)]
+                    interp1(t,propStates(3,:),tq)];
 velocityEstimate = [interp1(t,propStates(4,:),tq);
                     interp1(t,propStates(5,:),tq);
-                    interp1(t,propStates(6,:),tq)]
-h_query = norm(positionEstimate)-6378.1363
+                    interp1(t,propStates(6,:),tq)];
+h_query = norm(positionEstimate)-6378.1363;
 
 %% 3d propagation
 figure
