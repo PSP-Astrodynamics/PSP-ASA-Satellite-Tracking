@@ -1,0 +1,51 @@
+function Sk_struct = keplerianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,J2,R0,opt,pert)
+    E0 = 2*atan(((1-ecc0)/(1+ecc0))^0.5 * tan(nu0/2));
+    M0 = E0 - ecc0*sin(E0);
+    
+    Sk0 = [a0,ecc0,inc0,raan0,argp0,M0];
+    Sk_struct = ode45(@(tk,Sk) dSkdt(tk,Sk,simT,mu,J2,R0,pert),simT,Sk0,opt);
+end
+
+function dSkdt = dSkdt(tk,Sk,simT,mu,J2,R0,pert)
+ 
+    a = Sk(1);
+    ecc = Sk(2);
+    inc = Sk(3);
+    raan = Sk(4);
+    argp = Sk(5);
+    M = Sk(6);
+
+    p = a*(1-ecc^2);
+    n = sqrt(mu/a^3);
+    h = sqrt(p*mu);
+    b = a*sqrt(1-ecc^2);
+
+    E = meanToEcc(M, ecc);
+    nu = 2*atan(((1+ecc)/(1-ecc))^0.5 * tan(E/2));
+
+    r = p/(1+ecc*cos(nu));
+
+    f0 = [0,0,0,0,0,n]';
+
+    Bx = (1/h)*[2*a^2*ecc*sin(nu), 2*a^2*p/r, 0;...
+        p*sin(nu), (p+r)*cos(nu)+r*ecc, 0;...
+        0, 0, r*cos(nu+argp);...
+        0, 0, r*sin(nu+argp)/sin(inc);
+        -p*cos(nu)/ecc, (p+r)*sin(nu)/ecc, -r*sin(nu+argp)/tan(inc);...
+        b*p*cos(nu)/(a*ecc)-2*b*r/a, -b*(p+r)*sin(nu)/(a*ecc), 0];
+
+    [x,y,z,~,~,~] = kep2cart(a,ecc,inc,raan,argp,nu,mu);
+
+    %a_J2_xyz = -(3*mu*J2*(R0^2)/(2*r^5))*[(1-5*(z/r)^2)*x;...
+    %(1-5*(z/r)^2)*y; (3-5*(z/r)^2)*z];
+    
+    
+    for jj=1:length(pert)
+    pert{1}()
+    pert{2}()
+
+    a_J2_rth = rotateXYZrth(a_J2_xyz',inc,raan,argp,nu,'XYZ','RTH');
+    a_J2_rth = a_J2_rth';
+
+    dSkdt = f0 + Bx*a_J2_rth;
+end
