@@ -1,5 +1,3 @@
-
-
 clear; clc; close all
 
 %% Initializations
@@ -20,4 +18,8 @@ output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert);
 t=output.x;
 X=output.y;
 
-plot3(X(1,:),X(2,:),X(3,:))
+figure(1)
+plotStaticPropagation(X')
+%plot3(X(1,:),X(2,:),X(3,:))
+
+

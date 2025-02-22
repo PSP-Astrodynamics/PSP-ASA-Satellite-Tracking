@@ -154,7 +154,7 @@ velocityEstimate = [interp1(t,propStates(4,:),tq);
 h_query = norm(positionEstimate)-6378.1363;
 
 %% 3d propagation
-figure
+figure(5)
 plotStaticPropagation(propStates')
 hold on
 
@@ -186,19 +186,19 @@ end
 plot3([0,r(1,apo_idx)],[0,r(2,apo_idx)],[0,r(3,apo_idx)],'m',LineWidth=2)
 hold off
 
-figure
+figure(6)
 plot(t,RAAN,'r')
 grid on
 title('Simulated Right Ascension of the Ascending Node vs Time')
 xlabel('time')
 ylabel('RAAN (\Omega) [deg]')
 
-figure
+figure(7)
 plot(t,ecc,'b')
 grid on
 title('Simulated Eccentricity vs Time')
 xlabel('time')
 ylabel('e')
 
-figure
+figure(8)
 plot(t,omega_p)
