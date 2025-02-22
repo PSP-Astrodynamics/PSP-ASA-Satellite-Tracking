@@ -1,7 +1,7 @@
 function Xcar_struct = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert)
     [x0,y0,z0,vx0,vy0,vz0] = kep2cart(a0,ecc0,inc0,raan0,argp0,nu0,mu);
     Xcar0 = [x0,y0,z0,vx0,vy0,vz0];
-    
+
     Xcar_struct = ode45(@(t,Xkep) dScdt(t,Xkep,simT,mu,pert),simT,Xcar0,opt);
 end
 
