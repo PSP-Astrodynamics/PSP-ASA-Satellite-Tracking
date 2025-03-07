@@ -72,14 +72,14 @@ inEclipse = inEclipse';
 
 % Plot elevation above ground station
 t = days(propJulianDates - 2451544.5) + datetime(2000,1,1,0,0,0);
-figure(1)
-plot(t,satElevation,'k-')
-ylabel('Elevation [deg]')
-title('Elevation Above Ground Station Horizon')
-xlim([t(1) t(end)])
-hold on
-yline(Station.minElevation);
-grid on
+%figure(1)
+%plot(t,satElevation,'k-')
+%ylabel('Elevation [deg]')
+%title('Elevation Above Ground Station Horizon')
+%xlim([t(1) t(end)])
+%hold on
+%yline(Station.minElevation);
+%grid on
 
 %% Plot passes with contrained elevation
 passtimeUp = t(1);
@@ -116,31 +116,31 @@ end
 
 % Plot range and Doppler shift
 t2 = days(visibleJulianDates - 2451544.5) + datetime(2000,1,1,0,0,0);
-figure(2)
-subplot(2,1,1)
-plot(t2,rangeObs,'ko')
-ylabel('Range [km]')
-grid on
-title('Range and Recieved Frequency')
-subplot(2,1,2)
-plot(t2,dopplerObs/1e6,'ko')
-ylabel('Frequency [MHz]')
-grid on
+%figure(2)
+%subplot(2,1,1)
+%plot(t2,rangeObs,'ko')
+%ylabel('Range [km]')
+%grid on
+%title('Range and Recieved Frequency')
+%subplot(2,1,2)
+%plot(t2,dopplerObs/1e6,'ko')
+%ylabel('Frequency [MHz]')
+%grid on
 
 % Plot eclipse state
-figure(3)
-plot(t,inEclipse,'k')
-yticks([0 1])
-yticklabels({'Sunlit','Eclipse'})
-xlim([t(1) t(end)])
+%figure(3)
+%plot(t,inEclipse,'k')
+%yticks([0 1])
+%yticklabels({'Sunlit','Eclipse'})
+%xlim([t(1) t(end)])
 
 % Plot geocentric altitude
-figure(4)
-hG = vecnorm(propStates(1:3,:),2,1) - Environment.EarthEquatorialRadius;
-plot(t,hG,'k')
-xlim([t(1) t(end)])
-ylabel('Geocentric Altitude [km]')
-grid on
+%figure(4)
+%hG = vecnorm(propStates(1:3,:),2,1) - Environment.EarthEquatorialRadius;
+%plot(t,hG,'k')
+%xlim([t(1) t(end)])
+%ylabel('Geocentric Altitude [km]')
+%grid on
 
 % Determine state at query time
 tq = datetime(2024,11,28,15,5,0);
@@ -183,22 +183,22 @@ for q=1:length(r(1,:))
 end
 [rapo, apo_idx] = max(rmag);
 
-plot3([0,r(1,apo_idx)],[0,r(2,apo_idx)],[0,r(3,apo_idx)],'m',LineWidth=2)
+%plot3([0,r(1,apo_idx)],[0,r(2,apo_idx)],[0,r(3,apo_idx)],'m',LineWidth=2)
 hold off
 
-figure(6)
-plot(t,RAAN,'r')
-grid on
-title('Simulated Right Ascension of the Ascending Node vs Time')
-xlabel('time')
-ylabel('RAAN (\Omega) [deg]')
+%figure(6)
+%plot(t,RAAN,'r')
+%grid on
+%title('Simulated Right Ascension of the Ascending Node vs Time')
+%xlabel('time')
+%ylabel('RAAN (\Omega) [deg]')
 
-figure(7)
-plot(t,ecc,'b')
-grid on
-title('Simulated Eccentricity vs Time')
-xlabel('time')
-ylabel('e')
+%figure(7)
+%plot(t,ecc,'b')
+%grid on
+%title('Simulated Eccentricity vs Time')
+%xlabel('time')
+%ylabel('e')
 
-figure(8)
-plot(t,omega_p)
+%figure(8)
+%plot(t,omega_p)
