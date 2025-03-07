@@ -11,6 +11,7 @@ simT = 0:0.01:86400*7; %simulation time [s]
 mu = 3.986004415e5; %Earth gravitational parameter [km^3/s^2]
 opt = odeset('RelTol',1e-13, 'AbsTol', 1e-13); %set options for ODE solver
 pert = {@noPert,@SRPpert};
+R = 6378; %Earth radius for plot [km]
 
 %% Calculations/Function Calls
 output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert);
@@ -19,7 +20,10 @@ t=output.x;
 X=output.y;
 
 figure(1)
-plotStaticPropagation(X')
+%plotStaticPropagation(X')
 %plot3(X(1,:),X(2,:),X(3,:))
-
+plot3(X(1,:),X(2,:),X(3,:), 'r')
+hold on
+earthy(R)
+axis equal
 
