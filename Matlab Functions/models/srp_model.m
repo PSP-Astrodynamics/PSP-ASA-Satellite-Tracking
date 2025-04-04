@@ -1,23 +1,41 @@
+%=========================================================================%
+% PROGRAM: srp_model.m
+% AUTHOR: Evan Paul, Krish Mehta, 2025
+% DESCRIPTION: This file provides orbit propagation and related info 
+% for the Satellite Tracking Project. 
+%=========================================================================%
 clear; clc; close all
 
+%--------------------------USER SETTINGS----------------------------------%
+
+%% Define Satellite TLE - UPDATE THESE VALUES
+tleLine1 = '1 51085U 22002DF  25032.54719027  .00048242  00000+0  10702-2 0  9993';
+tleLine2 = '2 51085  97.3538 102.9956 0006702 315.2737  44.7970 15.43560689169443';
+
+%% Define Satellite Properties - UPDATE THESE VALUES
+mass = 2;      % Satellite mass [kg]
+Aref = .03405 / 1000000; % Satellite reference area [km^2]
+Cd   = 0.2;    % Satellite drag coefficient [unitless]
+S_m  = Aref / mass; % Satellite ballistic coefficient
+
+%% General - UPDATE THESE VALUES
+simT = 0:10:86400*3; %simulation time [s]
+
+%------------------------END USER SETTINGS--------------------------------%
+
 %% Initializations
-a0 = 6.8155e3; %semi major axis [km]
-ecc0 = 7.148e-4; %eccentricity
-inc0 = deg2rad(97.3566); %inclination [rad]
-raan0 = deg2rad(95.9229); %Right Ascension of the Ascending Node [rad]
-argp0 = deg2rad(342.7667); %Argument of periapsis [rad]
-nu0 = 2*pi*15.4297/86400; %mean motion [rad / sec]
-simT = 0:0.01:86400*3; %simulation time [s]
-mu = 3.986004415e5; %Earth gravitational parameter [km^3/s^2]
-opt = odeset('RelTol',1e-13, 'AbsTol', 1e-13); %set options for ODE solver
-pert = {@noPert,@SRPpert};
+
+[a0,ecc0,inc0,raan0,argp0,nu0] = getClassicalElements(tleLine2);
+
+mu = 3.986004415e5; % Earth gravitational parameter [km^3/s^2]
+opt = odeset('RelTol',1e-13, 'AbsTol', 1e-13); % Set options for ODE solver
+pert = {@noPert,@SRPpert,@J2pert,@dragPert};
 
 %% Calculations/Function Calls
-output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert);
+output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert,S_m,Cd);
 
 t=output.x;
 X=output.y;
 
-%plot3(X(1,:),X(2,:),X(3,:))
 figure(1)
 plotStaticPropagation(X')

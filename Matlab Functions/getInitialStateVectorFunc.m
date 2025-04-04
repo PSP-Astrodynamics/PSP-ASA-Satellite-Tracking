@@ -29,7 +29,7 @@ TA = 2*atan2(tan(EccAnom/2)*sqrt(1+e),sqrt(1-e));   %True Anomaly [rad]
 TA = TA*180/pi; % True anomaly [deg]
 
 
-%% Convert classical oribtal elements to cartesian state
+%% Convert classical orbital elements to cartesian state
 R = orbitDCM(inc,RAAN,TA+wP); %Create the direction cosine matrix
 p = a*(1-e^2); %Semi latus rectum
 h = sqrt(MU*p); %Orbital angular momentum

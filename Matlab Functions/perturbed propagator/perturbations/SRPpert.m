@@ -1,4 +1,4 @@
-function [a_SRP_xyz] = SRPpert(x,y,z,vx,vy,vz,t,mu)
+function [a_SRP_xyz] = SRPpert(x, y, z, vx, vy, vz, t, mu, S_m, Cd)
     a_E = 149597898; % km
     A_m = 5.4e-6; % km^2/kg
     G0 = 1.02e14; % kgkm/s^2

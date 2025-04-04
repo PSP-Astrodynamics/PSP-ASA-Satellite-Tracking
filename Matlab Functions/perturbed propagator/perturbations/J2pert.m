@@ -1,4 +1,4 @@
-function a_J2_xyz = J2pert(x,y,z,vx,vy,vz,t,mu)
+function a_J2_xyz = J2pert(x, y, z, vx, vy, vz, t, mu, S_m, Cd)
     R0 = 6378.1; % km
     J2 = 1.0826e-3; % ~
 
