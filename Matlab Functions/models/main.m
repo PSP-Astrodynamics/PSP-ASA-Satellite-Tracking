@@ -32,7 +32,7 @@ opt = odeset('RelTol',1e-13, 'AbsTol', 1e-13); % Set options for ODE solver
 pert = {@noPert,@SRPpert,@J2pert,@dragPert};
 
 %% Calculations/Function Calls
-output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert,S_m,Cd);
+output = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert,S_m,Cd,JD1);
 
 t=output.x;
 X=output.y;

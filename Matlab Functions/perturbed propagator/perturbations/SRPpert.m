@@ -1,4 +1,13 @@
-function [a_SRP_xyz] = SRPpert(x, y, z, vx, vy, vz, t, mu, S_m, Cd)
+function [a_SRP_xyz] = SRPpert(satSpecs)
+
+    mu = satSpecs.drag(1);
+    x = satSpecs.r(1);
+    y = satSpecs.r(2);
+    z = satSpecs.r(3);
+    t = satSpecs.t;
+    
+    earth_coords(i, :) = planetEphemeris(JD_times(i), 'Sun', 'Earth');
+    
     a_E = 149597898; % km
     A_m = 5.4e-6; % km^2/kg
     G0 = 1.02e14; % kgkm/s^2

@@ -1,6 +1,11 @@
-function a_J2_xyz = J2pert(x, y, z, vx, vy, vz, t, mu, S_m, Cd)
+function a_J2_xyz = J2pert(satSpecs)
     R0 = 6378.1; % km
     J2 = 1.0826e-3; % ~
+
+    x = satSpecs.r(1);
+    y = satSpecs.r(2);
+    z = satSpecs.r(3);
+    mu = satSpecs.drag(1);
 
     r = sqrt(x^2+y^2+z^2);
     

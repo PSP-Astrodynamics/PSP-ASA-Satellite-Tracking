@@ -1,12 +1,15 @@
-function a_D_xyz = dragPert(x, y, z, vx, vy, vz, t, mu, S_m, Cd)
+function a_D_xyz = dragPert(satSpecs)
     
     R0 = 6378.137;  
     omega_E = 7.2921151467e-5; % rad/s
+    
+    Cd = satSpecs.drag(3);
+    S_m = satSpecs.drag(2);
 
-    r_vec = [x, y, z];
+    r_vec = satSpecs.r;
     r = norm(r_vec);
 
-    v_vec = [vx, vy, vz];
+    v_vec = satSpecs.v;
     %v = norm(v_vec);
 
     alt = r-R0;

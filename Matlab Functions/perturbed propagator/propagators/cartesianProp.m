@@ -24,9 +24,15 @@ function dXcardt = dScdt(t,Xcar,simT,mu,pert,S_m,Cd)
     % a_J2_xyz = -(3*mu*J2*(R0^2)/(2*r^5))*[(1-5*(z/r)^2)*x;...
     %     (1-5*(z/r)^2)*y; (3-5*(z/r)^2)*z];
 
+    satSpecs = struct();
+    satSpecs.r = [x,y,z];
+    satSpecs.v = [vx,vy,vz];
+    satSpecs.t = t;
+    satSpecs.drag = [mu, S_m, Cd];
+
     a_pert_xyz = [0; 0; 0];
     for jj=1:length(pert)
-        a_pert_xyz = a_pert_xyz + pert{jj}(x,y,z,vx,vy,vz,t,mu,S_m,Cd);
+        a_pert_xyz = a_pert_xyz + pert{jj}(satSpecs);
     end
 
     dXcardt = [v_xyz; a_kepler_xyz+a_pert_xyz];
