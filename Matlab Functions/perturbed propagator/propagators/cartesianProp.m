@@ -1,11 +1,11 @@
-function Xcar_struct = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert,S_m,Cd)
+function Xcar_struct = cartesianProp(a0,ecc0,inc0,raan0,argp0,nu0,simT,mu,opt,pert,S_m,Cd,JD1)
     [x0,y0,z0,vx0,vy0,vz0] = kep2cart(a0,ecc0,inc0,raan0,argp0,nu0,mu);
     Xcar0 = [x0,y0,z0,vx0,vy0,vz0];
 
-    Xcar_struct = ode45(@(t,Xkep) dScdt(t,Xkep,simT,mu,pert,S_m,Cd),simT,Xcar0,opt);
+    Xcar_struct = ode45(@(t,Xkep) dScdt(t,Xkep,simT,mu,pert,S_m,Cd,JD1),simT,Xcar0,opt);
 end
 
-function dXcardt = dScdt(t,Xcar,simT,mu,pert,S_m,Cd)
+function dXcardt = dScdt(t,Xcar,simT,mu,pert,S_m,Cd,JD1)
     v_xyz = Xcar(4:6);
 
     r_xyz = Xcar(1:3);
@@ -29,7 +29,8 @@ function dXcardt = dScdt(t,Xcar,simT,mu,pert,S_m,Cd)
     satSpecs.v = [vx,vy,vz];
     satSpecs.t = t;
     satSpecs.drag = [mu, S_m, Cd];
-
+    satSpecs.JD1 = JD1;
+    
     a_pert_xyz = [0; 0; 0];
     for jj=1:length(pert)
         a_pert_xyz = a_pert_xyz + pert{jj}(satSpecs);

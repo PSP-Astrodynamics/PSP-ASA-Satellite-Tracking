@@ -18,8 +18,11 @@ Aref = .03405 / 1000000; % Satellite reference area [km^2]
 Cd   = 0.2;    % Satellite drag coefficient [unitless]
 S_m  = Aref / mass; % Satellite ballistic coefficient
 
+%% Initial state vector values
+[rxyz,velxyz,alt,JD1] = getInitialStateVectorFunc(tleLine1,tleLine2);
+
 %% General - UPDATE THESE VALUES
-simT = 0:10:86400*3; %simulation time [s]
+simT = 0:10:86400*300; %simulation time [s]
 
 %------------------------END USER SETTINGS--------------------------------%
 

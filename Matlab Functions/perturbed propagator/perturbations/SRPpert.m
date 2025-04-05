@@ -5,9 +5,13 @@ function [a_SRP_xyz] = SRPpert(satSpecs)
     y = satSpecs.r(2);
     z = satSpecs.r(3);
     t = satSpecs.t;
-    
-    earth_coords(i, :) = planetEphemeris(JD_times(i), 'Sun', 'Earth');
-    
+
+    JD1 = satSpecs.JD1;
+    JDCurrent = JD1 + t/86400;
+
+    sunCoords = planetEphemeris(JDCurrent, 'Earth', 'Sun');
+    sunCoords = sunCoords';
+
     a_E = 149597898; % km
     A_m = 5.4e-6; % km^2/kg
     G0 = 1.02e14; % kgkm/s^2
@@ -15,10 +19,10 @@ function [a_SRP_xyz] = SRPpert(satSpecs)
     n_E = sqrt(mu/a_E^3);
     psi = n_E*t; % rad
 
-    rE_vec_xyz = a_E*[cos(psi); sin(psi); 0];
+    % rE_vec_xyz = a_E*[cos(psi); sin(psi); 0];
     r_vec_xyz = [x;y;z];
 
-    d_vec_xyz = rE_vec_xyz+r_vec_xyz;
+    d_vec_xyz = r_vec_xyz-sunCoords;
     d = norm(d_vec_xyz);
     s_hat_xyz = d_vec_xyz/d;
 
